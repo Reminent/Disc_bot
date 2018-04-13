@@ -1,0 +1,6 @@
+# auth and PW files #
+/auth.json
+
+# OS GENERATED FILES #
+.DS_Store
+.DS_Store?
