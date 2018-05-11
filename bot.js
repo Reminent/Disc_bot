@@ -60,7 +60,33 @@ bot.on('message', function(user, userID, channelID, message, event) {
     }
 
     if (message === "!take_the_trash_out") {
+        var members = bot.servers[channelID].members;
+        var members_arr = [];
+        var roles = bot.servers[channelID].roles;
+        var roles_arr = [];
+        var access_role_nr = "";
+        var kicked_members = [];
 
+        for(var role in roles) {
+            if (bot.servers[channelID].roles[role].name === 'Access') {
+                access_role_nr = bot.servers[channelID].roles[role].id;
+            }
+        }
+
+        for(var member in members) {
+            if (bot.servers[channelID].members[member].roles.includes(access_role_nr)) {
+                kicked_members.push(member);
+            }
+        }
+        console.log(bot);
+        for(kicked in kicked_members) {
+            console.log(bot.servers[channelID].members[kicked_members]);
+        }
+
+        bot.sendMessage({
+            to: channelID,
+            message: bot.servers[channelID]
+        });
     }
 });
 
