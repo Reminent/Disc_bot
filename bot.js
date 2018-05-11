@@ -58,6 +58,10 @@ bot.on('message', function(user, userID, channelID, message, event) {
             message: result
         });
     }
+
+    if (message === "!take_the_trash_out") {
+
+    }
 });
 
 bot.on('presence', function(user, userID, status, game, event) {
