@@ -53,11 +53,11 @@ bot.on('message', function(user, userID, channelID, message, event) {
         var access_role_nr = "";
         var admin_role_nr = "";
         var kicked_members = [];
-        var callback = (err)=>{
-            bot.sendMessage({
-                to: channelID,
-                message: err.
-            });
+        var callback = (err) => {
+            // bot.sendMessage({
+            //     to: channelID,
+            //     message: err.
+            // });
         };
 
         //Find ID for role Lord of Ashes, only those with this role may kick members
@@ -66,8 +66,7 @@ bot.on('message', function(user, userID, channelID, message, event) {
                 admin_role_nr = bot.servers[channelID].roles[role].id;
             }
         }
-        console.log(bot.servers[channelID].members[userID].roles);
-        console.log(admin_role_nr);
+
         //Check if user sending command has Lord of Ashes role
         if (!bot.servers[channelID].members[userID].roles.includes(admin_role_nr)) {
             bot.sendMessage({
