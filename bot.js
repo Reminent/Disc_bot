@@ -15,20 +15,6 @@ bot.on('message', function(user, userID, channelID, message, event) {
         return;
     }
 
-    if (message === "members") {
-        bot.sendMessage({
-            to: channelID,
-            message: bot.servers[channelID]
-        });
-    }
-
-    if (message === "ping") {
-        bot.sendMessage({
-            to: channelID,
-            message: "pong"
-        });
-    }
-
     if (message === "!who_gets_it") {
         var members = bot.servers[channelID].members;
         var members_filtered = [];
@@ -74,18 +60,70 @@ bot.on('message', function(user, userID, channelID, message, event) {
         }
 
         for(var member in members) {
-            if (bot.servers[channelID].members[member].roles.includes(access_role_nr)) {
+            if (!bot.servers[channelID].members[member].roles.includes(access_role_nr)) {
                 kicked_members.push(member);
             }
         }
-        console.log(bot);
-        for(kicked in kicked_members) {
-            console.log(bot.servers[channelID].members[kicked_members]);
+
+        for(var i = 0; i < kicked_members.length; i++) {
+            bot.sendMessage({
+                to: channelID,
+                message: "kicked user: " + bot.users[kicked_members[i]].username
+            });
         }
+    }
+
+    if (message === "!djkrimson") {
+        var twitch = "https://www.twitch.tv/djkrimson";
+        var youtube = "https://www.youtube.com/user/estlandftw";
 
         bot.sendMessage({
             to: channelID,
-            message: bot.servers[channelID]
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!reminent") {
+        var twitch = "https://www.twitch.tv/reminent";
+        var youtube = "https://www.youtube.com/channel/UC0iywxaNljO_nP3YZOUDCcw/featured";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!drunkenbaby") {
+        var twitch = "https://www.twitch.tv/mardena";
+        var youtube = "";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!commands") {
+        var commands = "To get user twitch/youtube: \n !reminent \n !djkrimson \n !drunkenbaby \n \n To remove unwanted people: \n !trash \n \n To randomize loot: \n !who_gets_it"
+
+        bot.sendMessage({
+            to: channelID,
+            message: commands
         });
     }
 });
