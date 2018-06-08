@@ -72,7 +72,7 @@ bot.on('message', function(user, userID, channelID, message, event) {
         if (!bot.servers[channelID].members[userID].roles.includes(admin_role_nr)) {
             bot.sendMessage({
                 to: channelID,
-                message: "You dont have permission to kick the trash out... you trash"
+                message: "You dont have permission to take out the trash... you trash"
             });
             return;
         }
@@ -94,11 +94,11 @@ bot.on('message', function(user, userID, channelID, message, event) {
         //Go through list of members without Access and kick them, send names of kicked members to channel
         for(var i = 0; i < kicked_members.length; i++) {
             var kick_id = kicked_members[i];
-            //bot.kick( { serverID: channelID, userID: kick_id }, callback);
             bot.sendMessage({
                 to: channelID,
                 message: "kicked user: " + bot.users[kicked_members[i]].username
             });
+            bot.kick( { serverID: channelID, userID: kick_id }, callback);
         }
     }
 
@@ -170,15 +170,4 @@ bot.on('message', function(user, userID, channelID, message, event) {
             message: commands
         });
     }
-});
-
-bot.on('presence', function(user, userID, status, game, event) {
-    console.log("presence");
-    // Skickar event när en användare ändrar status (typ AFK, online osv) men inte
-    // när dom går in/ut i kanaler
-    // console.log(user);
-    // console.log(userID);
-    // console.log(status);
-    // console.log(game);
-    // console.log(event);
 });
