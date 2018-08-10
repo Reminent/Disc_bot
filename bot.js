@@ -15,21 +15,7 @@ bot.on('message', function(user, userID, channelID, message, event) {
         return;
     }
 
-    if (message === "members") {
-        bot.sendMessage({
-            to: channelID,
-            message: bot.servers[channelID]
-        });
-    }
-
-    if (message === "ping") {
-        bot.sendMessage({
-            to: channelID,
-            message: "pong"
-        });
-    }
-
-    if (message === "!who_gets_it") {
+    if (message === "!loot") {
         var members = bot.servers[channelID].members;
         var members_filtered = [];
         var members_in_same_channel = [];
@@ -58,15 +44,128 @@ bot.on('message', function(user, userID, channelID, message, event) {
             message: result
         });
     }
-});
 
-bot.on('presence', function(user, userID, status, game, event) {
-    console.log("presence");
-    // Skickar event när en användare ändrar status (typ AFK, online osv) men inte
-    // när dom går in/ut i kanaler
-    // console.log(user);
-    // console.log(userID);
-    // console.log(status);
-    // console.log(game);
-    // console.log(event);
+    if (message === "!trash") {
+        var members = bot.servers[channelID].members;
+        var members_arr = [];
+        var roles = bot.servers[channelID].roles;
+        var roles_arr = [];
+        var access_role_nr = "";
+        var admin_role_nr = "";
+        var kicked_members = [];
+        var callback = (err) => {
+            // bot.sendMessage({
+            //     to: channelID,
+            //     message: err.
+            // });
+        };
+
+        //Find ID for role Lord of Ashes, only those with this role may kick members
+        for(var role in roles) {
+            if (bot.servers[channelID].roles[role].name === 'Lord of Ashes') {
+                admin_role_nr = bot.servers[channelID].roles[role].id;
+            }
+        }
+
+        //Check if user sending command has Lord of Ashes role
+        if (!bot.servers[channelID].members[userID].roles.includes(admin_role_nr)) {
+            bot.sendMessage({
+                to: channelID,
+                message: "You dont have permission to take out the trash... you trash"
+            });
+            return;
+        }
+
+        //Find ID for role Access, everyone without this roll gets kicked
+        for(var role in roles) {
+            if (bot.servers[channelID].roles[role].name === 'Access') {
+                access_role_nr = bot.servers[channelID].roles[role].id;
+            }
+        }
+
+        //Go through all members and check if they have the Access role, save those without to list
+        for(var member in members) {
+            if (!bot.servers[channelID].members[member].roles.includes(access_role_nr)) {
+                kicked_members.push(member);
+            }
+        }
+
+        //Go through list of members without Access and kick them, send names of kicked members to channel
+        for(var i = 0; i < kicked_members.length; i++) {
+            var kick_id = kicked_members[i];
+            bot.sendMessage({
+                to: channelID,
+                message: "kicked user: " + bot.users[kicked_members[i]].username
+            });
+            bot.kick( { serverID: channelID, userID: kick_id }, callback);
+        }
+    }
+
+    if (message === "!djkrimson") {
+        var twitch = "https://www.twitch.tv/djkrimson";
+        var youtube = "https://www.youtube.com/user/estlandftw";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!reminent") {
+        var twitch = "https://www.twitch.tv/reminent";
+        var youtube = "https://www.youtube.com/channel/UC0iywxaNljO_nP3YZOUDCcw/featured";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!kungjohn") {
+        var twitch = "https://www.twitch.tv/mardena";
+        var youtube = "";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!henkolicious") {
+        var twitch = "https://www.twitch.tv/henkolicious";
+        var youtube = "https://www.youtube.com/user/henkolicious";
+
+        bot.sendMessage({
+            to: channelID,
+            message: twitch
+        });
+
+        bot.sendMessage({
+            to: channelID,
+            message: youtube
+        });
+    }
+
+    if (message === "!commands") {
+        var commands = "To get user twitch/youtube: \n !reminent \n !djkrimson \n !kungjohn \n !henkolicious \n \n To remove unwanted people: \n !trash \n \n To randomize loot: \n !loot"
+        bot.sendMessage({
+            to: channelID,
+            message: commands
+        });
+    }
 });
