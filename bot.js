@@ -163,7 +163,7 @@ bot.on('message', function(user, userID, channelID, message, event) {
 
     if (message === "!commands") {
         var commands = "To get user twitch/youtube: \n !reminent \n !djkrimson \n !kungjohn \n !henkolicious \n \n To remove unwanted people: \n !trash \n \n To randomize loot: \n !loot"
-
+        console.log("hej");
         bot.sendMessage({
             to: channelID,
             message: commands
